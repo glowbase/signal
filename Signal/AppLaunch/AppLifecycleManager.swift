@@ -1518,7 +1518,7 @@ final class AppLifecycleManager: NSObject, UNUserNotificationCenterDelegate {
     // MARK: -
 
     private func terminalErrorViewController() -> UIViewController {
-        let storyboard = UIStoryboard(name: "Launch Screen", bundle: nil)
+        let storyboard = UIStoryboard(name: "Launch Screen Yellow", bundle: nil)
         guard let viewController = storyboard.instantiateInitialViewController() else {
             owsFail("No initial view controller")
         }

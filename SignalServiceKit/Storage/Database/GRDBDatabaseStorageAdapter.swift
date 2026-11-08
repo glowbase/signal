@@ -82,8 +82,9 @@ public class GRDBDatabaseStorageAdapter {
             return primaryFolderName
         }
         if let primaryFolderName = CurrentAppContext().appUserDefaults().string(forKey: DirectoryMode.primaryFolderNameKey) {
-            // Make sure it's also written to the file.
-            OWSFileSystem.ensureDirectoryExists(fileUrl.deletingLastPathComponent().path)
+            // Make sure it's also written to the file. (The file lives in the
+            // App Group container root, which always exists and whose resource
+            // values can't be modified, so don't call ensureDirectoryExists.)
             try? primaryFolderName.write(toFile: fileUrl.path, atomically: true, encoding: .utf8)
             return primaryFolderName
         }
@@ -94,7 +95,6 @@ public class GRDBDatabaseStorageAdapter {
         CurrentAppContext().appUserDefaults().set(newPrimaryFolderName, forKey: DirectoryMode.primaryFolderNameKey)
         // Make sure it's also written to the file.
         let fileUrl = storedPrimaryFolderNameFileUrl()
-        OWSFileSystem.ensureDirectoryExists(fileUrl.deletingLastPathComponent().path)
         try? newPrimaryFolderName.write(toFile: fileUrl.path, atomically: true, encoding: .utf8)
 
         DarwinNotificationCenter.postNotification(name: .primaryDBFolderNameDidChange)
